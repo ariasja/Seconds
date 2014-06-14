@@ -9,4 +9,19 @@
 
 # Make sure your secret_key_base is kept private
 # if you're sharing your code publicly.
-SecondsAPI::Application.config.secret_key_base = '40c7a6ac7fca5485914b7acd93a45250c0653bdc6c07a015d27cf7d0bbad657e14dbe26754b8a626cee354209055d82a06b1bd5a8efd25a1828d85937840ae73'
+require 'securerandom'
+
+def secure_token
+  token_file = Rails.root.join('.secret')
+  if File.exist?(token_file)
+    # Use the existing token.
+    File.read(token_file).chomp
+  else
+    # Generate a new token and store it in token_file.
+    token = SecureRandom.hex(64)
+    File.write(token_file, token)
+    token
+  end
+end
+
+SecondsAPI::Application.config.secret_key_base = secure_token
