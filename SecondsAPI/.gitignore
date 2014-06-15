@@ -9,6 +9,9 @@
 /log/*.log
 /tmp
 
+# Ignore the database.yml file for postgres
+database.yml
+
 # Ignore other unneeded files.
 database.yml
 doc/
