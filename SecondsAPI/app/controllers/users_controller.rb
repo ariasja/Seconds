@@ -24,24 +24,21 @@ class UsersController < ApplicationController
   # POST /users
   # POST /users.json
   def create
-    @user = User.new(user_params)
-
-    respond_to do |format|
+    @user = User.new(user_create_params)
       if @user.save
-        format.html { redirect_to @user, notice: 'User was successfully created.' }
-        format.json { render action: 'show', status: :created, location: @user }
+        redirect_to @user
+        flash[:success] = "Get Ready to Start Taking Some Sweet Flicks"
       else
-        format.html { render action: 'new' }
-        format.json { render json: @user.errors, status: :unprocessable_entity }
+        flash[:error] = "Just put in the right info you fucking dumbass"
+        render 'new'
       end
-    end
   end
 
   # PATCH/PUT /users/1
   # PATCH/PUT /users/1.json
   def update
     respond_to do |format|
-      if @user.update(user_params)
+      if @user.update(user_update_params)
         format.html { redirect_to @user, notice: 'User was successfully updated.' }
         format.json { head :no_content }
       else
@@ -68,7 +65,10 @@ class UsersController < ApplicationController
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.
-    def user_params
-      params.require(:user).permit(:first_name, :last_name, :email, :bio)
+    def user_create_params
+      params.require(:user).permit(:first_name, :last_name, :email, :bio, :password, :password_confirmation)
+    end
+    def user_update_params
+      params.require(:user).permit(:first_name, :last_name, :bio)
     end
 end

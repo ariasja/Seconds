@@ -1,23 +1,19 @@
+<% provide(:title, @user.first_name) %>
+
+<h1>
+	<%= gravatar_for @user %> 
+	<%= @user.first_name %> <%= @user.last_name %> 
+</h1>
+
+<% if !:bio.blank? %>
+	<p id="bio"> <strong> <%= @user.bio %> </strong> </p>
+<% end %>
+
 <p id="notice"><%= notice %></p>
-
-<p>
-  <strong>First name:</strong>
-  <%= @user.first_name %>
-</p>
-
-<p>
-  <strong>Last name:</strong>
-  <%= @user.last_name %>
-</p>
-
+<p></p>
 <p>
   <strong>Email:</strong>
   <%= @user.email %>
-</p>
-
-<p>
-  <strong>Bio:</strong>
-  <%= @user.bio %>
 </p>
 
 <%= link_to 'Edit', edit_user_path(@user) %> |
