@@ -1,29 +1,25 @@
-<% provide(:title, @user.first_name) %>
+<% provide(:title, full_name(@user)) %>
+<div class="row">
+  <aside class="span4">
+    <section>
+      <h1>
+        <%= gravatar_for @user, size: 52 %>
+        <%= full_name(@user) %>
+      </h1>
+        <font color=#009999><%= wrap(@user.bio) %> </font>
 
-<h1>
-	<%= gravatar_for @user, {size: 50} %> 
-	<%= @user.first_name %> <%= @user.last_name %> 
-</h1>
+    </section>
+  </aside>
+  <div class="span8">
+    <%= render 'follow_form' if signed_in? %>
 
-<% if !:bio.blank? %>
-	<p id="bio"> <strong> <%= @user.bio %> </strong> </p>
-<% end %>
-
-<p id="notice"><%= notice %></p>
-
-<%for i in 0..3%>
-  <p></p>
-<%end%>
-
-<div class="span8">
     <% if @user.posts.any? %>
-      <h3>Posts (<%= @user.posts.count %>)</h3>
+      <h3>Microposts (<%= @user.posts.count %>)</h3>
       <ol class="posts">
         <%= render @posts %>
       </ol>
       <%= will_paginate @posts %>
     <% end %>
+  </div>
 </div>
-
-<%= link_to 'Edit', edit_user_path(@user) %> |
-<%= link_to 'Back', users_path %>
+</div>
