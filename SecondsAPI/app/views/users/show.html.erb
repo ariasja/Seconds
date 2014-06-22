@@ -10,11 +10,20 @@
 <% end %>
 
 <p id="notice"><%= notice %></p>
-<p></p>
-<p>
-  <strong>Email:</strong>
-  <%= @user.email %>
-</p>
+
+<%for i in 0..3%>
+  <p></p>
+<%end%>
+
+<div class="span8">
+    <% if @user.posts.any? %>
+      <h3>Posts (<%= @user.posts.count %>)</h3>
+      <ol class="posts">
+        <%= render @posts %>
+      </ol>
+      <%= will_paginate @posts %>
+    <% end %>
+</div>
 
 <%= link_to 'Edit', edit_user_path(@user) %> |
 <%= link_to 'Back', users_path %>

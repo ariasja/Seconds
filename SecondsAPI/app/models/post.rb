@@ -1,6 +1,12 @@
 class Post < ActiveRecord::Base
-	validates :caption, length: { maximum: 140 }
+    validates :user_id, presence: true
+    validates :video_id, presence: true
+    validates :caption, length: { maximum: 50 }
 
-	has_one :video
-	belongs_to :user
+    belongs_to :user
+
+    default_scope -> { order('created_at DESC') }
+
+
+
 end

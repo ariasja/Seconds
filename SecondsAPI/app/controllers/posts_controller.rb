@@ -1,5 +1,9 @@
 class PostsController < ApplicationController
   before_action :set_post, only: [:show, :edit, :update, :destroy]
+  before_action :signed_in_user, only:[:create, :destroy]
+  before_action :correct_user,   only: :destroy
+
+
 
   # GET /posts
   # GET /posts.json
@@ -24,17 +28,15 @@ class PostsController < ApplicationController
   # POST /posts
   # POST /posts.json
   def create
-    @post = Post.new(post_params)
-
-    respond_to do |format|
-      if @post.save
-        format.html { redirect_to @post, notice: 'Post was successfully created.' }
-        format.json { render action: 'show', status: :created, location: @post }
-      else
-        format.html { render action: 'new' }
-        format.json { render json: @post.errors, status: :unprocessable_entity }
-      end
+    @post = current_user.posts.build(post_params)
+    if @post.save
+      flash[:success] = "Post Posted!"
+      redirect_to root_url
+    else
+      @feed_items = []
+      render 'static_pages/home'
     end
+
   end
 
   # PATCH/PUT /posts/1
@@ -56,7 +58,7 @@ class PostsController < ApplicationController
   def destroy
     @post.destroy
     respond_to do |format|
-      format.html { redirect_to posts_url }
+      format.html { redirect_to root_url }
       format.json { head :no_content }
     end
   end
@@ -69,6 +71,12 @@ class PostsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def post_params
-      params.require(:post).permit(:user_id, :video_id, :caption)
+      params.require(:post).permit(:video_id, :caption)
+    end
+
+    def correct_user
+      @micropost = current_user.microposts.find(params[:id])
+      rescue
+        redirect_to root_url
     end
 end

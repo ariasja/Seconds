@@ -1,13 +1,28 @@
-<div class="center hero-unit">
-  <h1>Welcome to Seconds</h1>
+<% if signed_in? %>
+  <div class="row">
+    <aside class="span4">
+      <section>
+        <%= render 'shared/user_info' %>
+      </section>
+      <section>
+        <%= render 'shared/post_form' %>
+      </section>
+    </aside>
+    <div class="span8">
+      <h3>POSTS</h3>
+      <%= render 'shared/feed' %>
+    </div>
+  </div>
+  </div>
+<% else %>
+  <div class="center hero-unit">
+    <h1>Welcome to the Seconds</h1>
 
-  <h2>
-    This is my fucking home page.
-  </h2>
-  <p></p>
-  <h2>
-  	It doesn't matter because I'm just writing an API.
-  </h2>
- 	<%= link_to "Sign Up Now, Bitch", signup_path, class: "btn btn-large btn-primary" %>
-</div>
+    <h2>
+      This is the home page. It is stupid and useless.
+    </h2>
 
+    <%= link_to "Sign up now!", signup_path,
+                                class: "btn btn-large btn-primary" %>
+  </div>
+<% end %>
